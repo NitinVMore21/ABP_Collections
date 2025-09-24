@@ -1,0 +1,301 @@
+{
+	"info": {
+		"_postman_id": "08353b52-9ab2-43af-bb4e-b0c16709342d",
+		"name": "Uecc Horizon_OutBound_Manual",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37513981",
+		"_collection_link": "https://www.postman.com/swati-1256233/workspace/abp-workspace/collection/37513981-08353b52-9ab2-43af-bb4e-b0c16709342d?action=share&source=collection_link&creator=37513981"
+	},
+	"item": [
+		{
+			"name": "SAS_Token_Generation Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the response body\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"// Store the full sasToken value in an environment variable\r",
+							"pm.globals.set(\"sas_token\", response.sasToken);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"permissions\": \"rwl\", \r\n  \"expiryHours\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://aisdevuecchorizonlap01.azurewebsites.net:443/api/LA_Return_SASToken_To_Caller/triggers/manual/invoke?api-version=2022-05-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=KO5ysAIjMkUKaFq4X8J2InXDmarDm8z8owosyJWimSQ",
+					"protocol": "https",
+					"host": [
+						"aisdevuecchorizonlap01",
+						"azurewebsites",
+						"net"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"LA_Return_SASToken_To_Caller",
+						"triggers",
+						"manual",
+						"invoke"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2022-05-01"
+						},
+						{
+							"key": "sp",
+							"value": "%2Ftriggers%2Fmanual%2Frun"
+						},
+						{
+							"key": "sv",
+							"value": "1.0"
+						},
+						{
+							"key": "sig",
+							"value": "KO5ysAIjMkUKaFq4X8J2InXDmarDm8z8owosyJWimSQ"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pre-Advice UploadFile Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-ms-blob-content-type",
+						"value": "text/xml",
+						"type": "text"
+					},
+					{
+						"key": "x-ms-blob-type",
+						"value": "BlockBlob",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<ns0:Message xmlns:ns0=\"CargoStatus\">\r\n<MessageHeader>\r\n<Version>0.1</Version>\r\n<MessageId>12345678</MessageId>\r\n<Timestamp>2024-10-21T015:10:20</Timestamp>\r\n<MessageType>CUSTOMER-IN</MessageType>\r\n<Sender>BMWAGD</Sender>\r\n<Receiver>UECC</Receiver>\r\n<DBOperation>INSERT</DBOperation>\r\n<DBDateChange>2023-06-08T13:32:20</DBDateChange>\r\n</MessageHeader>\r\n<CargoStatus>\r\n<LHHeader>\r\n<DBOperation>INSERT</DBOperation>\r\n<POL>GBSOU</POL>\r\n</LHHeader>\r\n<Document>\r\n<PortOfFinalDischarge>AOLAD</PortOfFinalDischarge>\r\n<Agency>HQ</Agency>\r\n<Shipper>BMWAGD</Shipper>\r\n<DocumentItems>\r\n<DocumentItem>\r\n<Units>\r\n<Unit>\r\n<References>\r\n<Reference>\r\n<Id>3</Id>\r\n<Value>189</Value>\r\n</Reference>\r\n<Reference>\r\n<Id>1</Id>\r\n<Value />\r\n</Reference>\r\n<Reference>\r\n<Id>1001</Id>\r\n<Value>6053</Value>\r\n</Reference>\r\n<Reference>\r\n<Id>1002</Id>\r\n<Value>55227</Value>\r\n</Reference>\r\n</References>\r\n<Manufacturer>BMW</Manufacturer>\r\n<Status>X</Status>\r\n<StatusDate>2024-07-10T15:45:20</StatusDate>\r\n<StatusLocation>6053</StatusLocation>\r\n<Model>X3</Model>\r\n<VIN>KA03072025001</VIN>\r\n<Colour></Colour>\r\n<ReferenceNumber>KA211024</ReferenceNumber>\r\n<PortOfLoadingBL>GBSOU</PortOfLoadingBL>\r\n<PortOfDischargeBL>AOLAD</PortOfDischargeBL>\r\n</Unit>\r\n</Units>\r\n</DocumentItem>\r\n</DocumentItems>\r\n</Document>\r\n</CargoStatus>\r\n</ns0:Message>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://abpaisdevinformsa01.blob.core.windows.net/uecc-horizon/Outbound/PreAdvice/Sftp_EquivalentFolder/UECC_H_PreAdvice_260225001.xml?_=1752140560971&{{sas_token}}",
+					"protocol": "https",
+					"host": [
+						"abpaisdevinformsa01",
+						"blob",
+						"core",
+						"windows",
+						"net"
+					],
+					"path": [
+						"uecc-horizon",
+						"Outbound",
+						"PreAdvice",
+						"Sftp_EquivalentFolder",
+						"UECC_H_PreAdvice_260225001.xml"
+					],
+					"query": [
+						{
+							"key": "_",
+							"value": "1752140560971"
+						},
+						{
+							"key": "{{sas_token}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bearer_Token_Generation Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"if (jsonData.access_token) {\r",
+							"    pm.globals.set(\"access_token\", jsonData.access_token);\r",
+							"    console.log(\"Access token saved:\", jsonData.access_token);\r",
+							"} else {\r",
+							"    console.error(\"Access token not found in the response.\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded;charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "8cd79954-9871-485b-ade7-74020d867dda",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "https://management.azure.com/.default",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "e.68Q~ad~5YyX68e~EnDqBNvTlAp4FNClQkmdb26",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.microsoftonline.com/d4b8cd2d-d0c8-437d-87ea-58d544aacf38/oauth2/v2.0/token",
+					"protocol": "https",
+					"host": [
+						"login",
+						"microsoftonline",
+						"com"
+					],
+					"path": [
+						"d4b8cd2d-d0c8-437d-87ea-58d544aacf38",
+						"oauth2",
+						"v2.0",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UECC Horizon Job Run Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-ms-client-request-id",
+						"value": "6f945949-918c-41ea-bf4a-d2ca463eb00d",
+						"type": "text"
+					},
+					{
+						"key": "x-ms-client-session-id",
+						"value": "0072834f2bf946c88af9876517973998",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"requests\": [\r\n    {\r\n      \"httpMethod\": \"POST\",\r\n      \"name\": \"b44c88a8-b2ef-4dea-be22-b447355ed016\",\r\n      \"requestHeaderDetails\": {\r\n        \"commandName\": \"Microsoft_Azure_EMA.triggerRun\"\r\n      },\r\n      \"url\": \"/subscriptions/5f46e4f5-559f-47e7-be55-616972a20757/resourceGroups/abp-ais-dev-uecchorizon-uks-rg01/providers/Microsoft.Web/sites/aisdevuecchorizonlap01/hostruntime/runtime/webhooks/workflow/api/management/workflows/DEV_UECC_HORIZON_OUTBOUND_MANUAL/triggers/Recurrence/run?api-version=2018-11-01\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://management.azure.com/batch?api-version=2020-06-01",
+					"protocol": "https",
+					"host": [
+						"management",
+						"azure",
+						"com"
+					],
+					"path": [
+						"batch"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2020-06-01"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
