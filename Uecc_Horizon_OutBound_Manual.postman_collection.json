@@ -1,8 +1,8 @@
 {
 	"info": {
 		"_postman_id": "08353b52-9ab2-43af-bb4e-b0c16709342d",
-		"name": "Uecc Horizon_OutBound_Manual",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"name": "Uecc_Horizon_OutBound_Manual",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "37513981",
 		"_collection_link": "https://www.postman.com/swati-1256233/workspace/abp-workspace/collection/37513981-08353b52-9ab2-43af-bb4e-b0c16709342d?action=share&source=collection_link&creator=37513981"
 	},
@@ -18,12 +18,13 @@
 							"let response = pm.response.json();\r",
 							"\r",
 							"// Store the full sasToken value in an environment variable\r",
-							"pm.globals.set(\"sas_token\", response.sasToken);\r",
+							"pm.collectionVariables.set(\"sas_token\", response.sasToken);\r",
 							"\r",
 							""
 						],
 						"type": "text/javascript",
-						"packages": {}
+						"packages": {},
+						"requests": {}
 					}
 				}
 			],
@@ -165,7 +166,7 @@
 							"let jsonData = pm.response.json();\r",
 							"\r",
 							"if (jsonData.access_token) {\r",
-							"    pm.globals.set(\"access_token\", jsonData.access_token);\r",
+							"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);\r",
 							"    console.log(\"Access token saved:\", jsonData.access_token);\r",
 							"} else {\r",
 							"    console.error(\"Access token not found in the response.\");\r",
@@ -173,7 +174,8 @@
 							""
 						],
 						"type": "text/javascript",
-						"packages": {}
+						"packages": {},
+						"requests": {}
 					}
 				}
 			],
@@ -211,21 +213,7 @@
 						}
 					]
 				},
-				"url": {
-					"raw": "https://login.microsoftonline.com/d4b8cd2d-d0c8-437d-87ea-58d544aacf38/oauth2/v2.0/token",
-					"protocol": "https",
-					"host": [
-						"login",
-						"microsoftonline",
-						"com"
-					],
-					"path": [
-						"d4b8cd2d-d0c8-437d-87ea-58d544aacf38",
-						"oauth2",
-						"v2.0",
-						"token"
-					]
-				}
+				"url": "https://login.microsoftonline.com/d4b8cd2d-d0c8-437d-87ea-58d544aacf38/oauth2/v2.0/token"
 			},
 			"response": []
 		},
@@ -246,13 +234,9 @@
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{access_token}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{access_token}}"
+					}
 				},
 				"method": "POST",
 				"header": [
