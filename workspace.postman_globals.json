@@ -1,0 +1,21 @@
+{
+	"id": "a71aad14-6f4c-48fc-87b6-33759cd9b966",
+	"values": [
+		{
+			"key": "sas_token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2025-09-24T11:11:44.867Z",
+	"_postman_exported_using": "Postman/11.64.1"
+}
